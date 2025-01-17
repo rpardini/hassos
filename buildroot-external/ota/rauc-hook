@@ -52,6 +52,18 @@ install_boot() {
             sed -i '/device_tree=bcm2711-rpi-cm4-ha-yellow.dtb/d; s/\[all\]/\[cm4\]\ndevice_tree=bcm2711-rpi-cm4-ha-yellow.dtb\n\n\[cm5\]\ndevice_tree=bcm2712-rpi-cm5-ha-yellow.dtb\n\n\[all\]/' "${BOOT_MNT}/config.txt"
         fi
     fi
+
+    # Migrate rauc.db to boot partition - can be removed in HAOS 16.
+    if [ ! -f "${BOOT_MNT}/rauc.db" ]; then
+        # Mount data
+        if ! systemctl -q is-active mnt-data.mount; then
+            systemctl start mnt-data.mount
+        fi
+
+        if [ -f /mnt/data/rauc.db ]; then
+            cp /mnt/data/rauc.db "${BOOT_MNT}/"
+        fi
+    fi
 }
 
 install_spl() {
