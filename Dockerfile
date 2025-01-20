@@ -1,7 +1,7 @@
 FROM debian:bullseye
 
 # Set shell
-SHELL ["/bin/bash", "-o", "pipefail", "-c"]
+SHELL ["/bin/bash", "-o", "pipefail", "-e", "-c"]
 
 # Docker
 RUN apt-get update && apt-get install -y --no-install-recommends \
@@ -61,6 +61,7 @@ WORKDIR /build
 ADD ./.git /build/.git
 RUN  pwd
 RUN ls  -la
+RUN git config --global --add safe.directory /build
 RUN git checkout dev
 RUN git log -10
 VOLUME /build/output
