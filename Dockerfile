@@ -58,3 +58,9 @@ ENTRYPOINT ["/usr/sbin/entry.sh"]
 
 # Get buildroot
 WORKDIR /build
+ADD ./.git /build/.git
+RUN  pwd
+RUN ls  -la
+RUN git checkout dev
+RUN git log -10
+VOLUME /build/output
