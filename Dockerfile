@@ -63,5 +63,6 @@ RUN  pwd
 RUN ls  -la
 RUN git config --global --add safe.directory /build
 RUN git checkout dev
+RUN git reset --hard
 RUN git log -10
 VOLUME /build/output
